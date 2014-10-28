@@ -142,6 +142,7 @@ class BaseTestFixture(unittest.TestCase):
         """Checks if a test result matches a specific test name."""
         # Try to get the result portion of the tuple
         try:
+            import ipdb; ipdb.set_trace()
             result = test_result[0]
         except IndexError:
             return False
