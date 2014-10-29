@@ -126,9 +126,12 @@ class BaseTestFixture(unittest.TestCase):
                 self._reporter.stop_test_metrics(self._testMethodName,
                                                  'Passed')
         else:
-            if any((method, error) for (method, error) in self._outcome.errors
-                   if self._test_name_matches_result(self._testMethodName,
-                                                     method)):
+            for (method, error) in self._outcome.errors:
+                import ipdb; ipdb.set_trace()
+                test_result_list = method()
+                test_result = test_result_list[0]
+                if self._test_name_matches_result(self._testMethodName,
+                                                  test_result):
                     self._reporter.stop_test_metrics(self._testMethodName,
                                                      'Failed')
             else:
@@ -140,17 +143,11 @@ class BaseTestFixture(unittest.TestCase):
 
     def _test_name_matches_result(self, name, test_result):
         """Checks if a test result matches a specific test name."""
-        if sys.version_info < (3, 4):
             # Try to get the result portion of the tuple
-            try:
-                result = test_result[0]
-            except IndexError:
-                return False
-        else:
-            try:
-                result = test_result().failures[0][0]
-            except IndexError:
-                return False
+        try:
+            result = test_result[0]
+        except IndexError:
+            return False
 
         # Verify the object has the correct property
         if hasattr(result, '_testMethodName'):
