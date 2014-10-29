@@ -126,9 +126,9 @@ class BaseTestFixture(unittest.TestCase):
                 self._reporter.stop_test_metrics(self._testMethodName,
                                                  'Passed')
         else:
-            for method, error in self._outcome.errors:
-                if self._test_name_matches_result(self._testMethodName,
-                                                  method):
+            if any(method_error for method_error in self._outcome.errors
+                   if self._test_name_matches_result(self._testMethodName,
+                                                     method_error[1])):
                     self._reporter.stop_test_metrics(self._testMethodName,
                                                      'Failed')
             else:
