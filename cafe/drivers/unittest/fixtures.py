@@ -141,11 +141,13 @@ class BaseTestFixture(unittest.TestCase):
     def _test_name_matches_result(self, name, test_result):
         """Checks if a test result matches a specific test name."""
             # Try to get the result portion of the tuple
-        try:
-            import ipdb; ipdb.set_trace()
-            result = test_result[0]
-        except IndexError:
-            return False
+        if sys.version_info < (3, 4):
+            try:
+                result = test_result[0]
+            except IndexError:
+                return False
+        else:
+            result = test_result
 
         # Verify the object has the correct property
         if hasattr(result, '_testMethodName'):
