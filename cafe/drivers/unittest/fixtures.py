@@ -101,11 +101,6 @@ class BaseTestFixture(unittest.TestCase):
                better pattern or working with the result object directly.
                This is related to the todo in L{TestRunMetrics}
         """
-        def _py34_test_has_failed(self):
-            for method, error in self._outcome.errors:
-                if error:
-                    return True
-            return False
 
         if sys.version_info < (3, 4):
             if six.PY2:
@@ -131,9 +126,9 @@ class BaseTestFixture(unittest.TestCase):
                                                   method):
                     self._reporter.stop_test_metrics(self._testMethodName,
                                                      'Failed')
-            else:
-                self._reporter.stop_test_metrics(self._testMethodName,
-                                                 'Passed')
+                else:
+                    self._reporter.stop_test_metrics(self._testMethodName,
+                                                     'Passed')
 
         # Let the base handle whatever hoodoo it needs
         super(BaseTestFixture, self).tearDown()

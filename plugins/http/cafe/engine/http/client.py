@@ -190,9 +190,9 @@ class BaseHTTPClient(BaseClient):
         """ HTTP OPTIONS request """
         return self.request('OPTIONS', url, **kwargs)
 
-    def patch(self, url, **kwargs):
+    def patch(self, url, data=None, **kwargs):
         """ HTTP PATCH request """
-        return self.request('PATCH', url, **kwargs)
+        return self.request('PATCH', url, data=data, **kwargs)
 
     @classmethod
     def add_exception_handler(cls, handler):
